@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Minna 💛</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Georgia", serif;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #ffd86b, #ffb347, #ffd76a);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(20px);
+    opacity: 0.35;
+    z-index: 0;
+}
+
+body::before {
+    width: 300px;
+    height: 300px;
+    background: #fff3a3;
+    top: -80px;
+    left: -80px;
+}
+
+body::after {
+    width: 350px;
+    height: 350px;
+    background: #ff9f43;
+    bottom: -120px;
+    right: -100px;
+}
+
+/* Pantalla inicial */
+#inicio {
+    text-align: center;
+    z-index: 5;
+    transition: 1s ease;
+    padding: 20px;
+}
+
+#inicio.oculto {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+}
+
+.titulo-inicio {
+    color: #704214;
+    font-size: 48px;
+    margin-bottom: 10px;
+    text-shadow: 0 3px 8px rgba(255,255,255,0.4);
+}
+
+.subtitulo {
+    color: #7b4a20;
+    font-size: 20px;
+    margin-bottom: 35px;
+}
+
+/* Botón */
+.boton-abrir {
+    border: none;
+    background: #8b572a;
+    color: white;
+    padding: 16px 34px;
+    border-radius: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(90, 50, 10, 0.3);
+    transition: 0.3s;
+}
+
+.boton-abrir:hover {
+    transform: translateY(-4px) scale(1.04);
+    background: #74451f;
+}
+
+/* Carta */
+#carta {
+    position: absolute;
+    width: min(700px, 90%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #fff8e7;
+    border-radius: 28px;
+    padding: 45px 50px;
+    box-shadow: 0 20px 60px rgba(90, 50, 10, 0.3);
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+    transition: 1.2s ease;
+    z-index: 3;
+}
+
+#carta.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+#carta h2 {
+    text-align: center;
+    color: #9b5e24;
+    font-size: 34px;
+    margin-top: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s ease;
+}
+
+#carta h2.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#carta p {
+    color: #5d432e;
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s ease;
+}
+
+#carta p.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.firma {
+    text-align: center;
+    color: #9b5e24;
+    font-size: 20px;
+    margin-top: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s ease;
+}
+
+.firma.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Spotify */
+.spotify-player {
+    margin-top: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s ease;
+}
+
+.spotify-player.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Flores */
+.flor {
+    position: fixed;
+    width: 90px;
+    height: 150px;
+    z-index: 2;
+    opacity: 0;
+    transform: scale(0);
+    transition: 1s ease;
+}
+
+.flor.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.petalo {
+    position: absolute;
+    width: 30px;
+    height: 48px;
+    background: #ffd83d;
+    border-radius: 50%;
+    left: 30px;
+    top: 5px;
+    transform-origin: 15px 40px;
+}
+
+.petalo:nth-child(1) {
+    transform: rotate(0deg) translateY(-18px);
+}
+
+.petalo:nth-child(2) {
+    transform: rotate(72deg) translateY(-18px);
+}
+
+.petalo:nth-child(3) {
+    transform: rotate(144deg) translateY(-18px);
+}
+
+.petalo:nth-child(4) {
+    transform: rotate(216deg) translateY(-18px);
+}
+
+.petalo:nth-child(5) {
+    transform: rotate(288deg) translateY(-18px);
+}
+
+.centro {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: #c87818;
+    border-radius: 50%;
+    left: 32px;
+    top: 28px;
+    z-index: 3;
+}
+
+.tallo {
+    position: absolute;
+    width: 7px;
+    height: 90px;
+    background: #5b9b45;
+    left: 42px;
+    top: 52px;
+    border-radius: 10px;
+}
+
+.hoja {
+    position: absolute;
+    width: 28px;
+    height: 15px;
+    background: #5b9b45;
+    border-radius: 100% 0;
+    top: 90px;
+    left: 18px;
+    transform: rotate(-25deg);
+}
+
+.hoja2 {
+    position: absolute;
+    width: 28px;
+    height: 15px;
+    background: #5b9b45;
+    border-radius: 0 100%;
+    top: 110px;
+    left: 45px;
+    transform: rotate(25deg);
+}
+
+/* Posiciones */
+#flor1 {
+    left: 3%;
+    top: 15%;
+}
+
+#flor2 {
+    right: 3%;
+    top: 18%;
+}
+
+#flor3 {
+    left: 5%;
+    bottom: 12%;
+}
+
+#flor4 {
+    right: 5%;
+    bottom: 12%;
+}
+
+#flor5 {
+    left: 18%;
+    top: 4%;
+    transform: scale(0.7);
+}
+
+#flor6 {
+    right: 18%;
+    bottom: 3%;
+    transform: scale(0.7);
+}
+
+/* Corazones */
+.corazon {
+    position: fixed;
+    bottom: -30px;
+    color: rgba(255,255,255,0.65);
+    animation: subir 9s linear forwards;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes subir {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-110vh) rotate(30deg);
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   CELULARES
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .titulo-inicio {
+        font-size: 34px;
+    }
+
+    .subtitulo {
+        font-size: 16px;
+        margin-bottom: 28px;
+    }
+
+    .boton-abrir {
+        padding: 14px 28px;
+        font-size: 16px;
+    }
+
+    /* Carta más pequeña */
+    #carta {
+        width: 72%;
+        max-height: 76vh;
+        padding: 22px 18px;
+        border-radius: 22px;
+    }
+
+    #carta h2 {
+        font-size: 25px;
+        margin-bottom: 12px;
+    }
+
+    #carta p {
+        font-size: 13px;
+        line-height: 1.55;
+        margin: 12px 0;
+    }
+
+    .firma {
+        font-size: 16px;
+        margin-top: 18px;
+    }
+
+    /* Spotify */
+    .spotify-player {
+        margin-top: 18px;
+    }
+
+    .spotify-player iframe {
+        height: 152px;
+    }
+
+    /* Flores más grandes y visibles */
+    .flor {
+        transform: scale(0.72);
+    }
+
+    #flor1 {
+        left: -10px;
+        top: 10%;
+    }
+
+    #flor2 {
+        right: -10px;
+        top: 12%;
+    }
+
+    #flor3 {
+        left: -10px;
+        bottom: 8%;
+    }
+
+    #flor4 {
+        right: -10px;
+        bottom: 8%;
+    }
+
+    #flor5 {
+        left: 2%;
+        top: 1%;
+        transform: scale(0.55);
+    }
+
+    #flor6 {
+        right: 2%;
+        bottom: 0%;
+        transform: scale(0.55);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- INICIO -->
+
+<div id="inicio">
+
+    <div class="titulo-inicio">
+        Para Minna 💛
+    </div>
+
+    <div class="subtitulo">
+        Hay algo que quiero decirte...
+    </div>
+
+    <button class="boton-abrir" onclick="abrirTodo()">
+        💛 Abrir mensaje
+    </button>
+
+</div>
+
+
+<!-- CARTA -->
+
+<div id="carta">
+
+    <h2>Minna 💛</h2>
+
+    <p>
+        Aunque la distancia haga que algunas cosas sean difíciles
+        y que no siempre podamos estar cerca, quiero que sepas que
+        eso nunca ha cambiado lo que siento por ti.
+    </p>
+
+    <p>
+        Te quiero de una manera sincera, no por pensar que eres
+        perfecta, sino porque eres tú. Incluso tus defectos, tus
+        días malos y las cosas que quizá tú misma cambiarías forman
+        parte de la persona que quiero.
+    </p>
+
+    <p>
+        Nunca pienses que lo que haces día a día es en vano.
+        Tal vez algunas veces no notes cuánto vales, pero eres
+        importante para muchas personas y has dejado algo bonito
+        en la vida de quienes te rodean.
+    </p>
+
+    <p>
+        Y aunque exista distancia, dificultades o momentos
+        complicados, quiero seguir queriéndote de verdad,
+        sin importar lo lejos que estemos.
+    </p>
+
+    <p>
+        Porque si algo quiero que recuerdes, es que para mí
+        sigues siendo alguien muy especial.
+    </p>
+
+    <div class="firma">
+        Con mucho cariño,<br>
+        <strong>Aarón 💛</strong>
+    </div>
+
+
+    <!-- SPOTIFY -->
+
+    <div class="spotify-player" id="spotifyPlayer">
+
+        <iframe
+            style="border-radius:12px"
+            src="https://open.spotify.com/embed/track/0SRddBTphQwQcfqw4Br1uX"
+            width="100%"
+            height="152"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+        </iframe>
+
+    </div>
+
+</div>
+
+
+<!-- FLORES -->
+
+<div class="flor" id="flor1">
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="centro"></div>
+    <div class="tallo"></div>
+    <div class="hoja"></div>
+    <div class="hoja2"></div>
+</div>
+
+<div class="flor" id="flor2">
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="centro"></div>
+    <div class="tallo"></div>
+    <div class="hoja"></div>
+    <div class="hoja2"></div>
+</div>
+
+<div class="flor" id="flor3">
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="centro"></div>
+    <div class="tallo"></div>
+    <div class="hoja"></div>
+    <div class="hoja2"></div>
+</div>
+
+<div class="flor" id="flor4">
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="centro"></div>
+    <div class="tallo"></div>
+    <div class="hoja"></div>
+    <div class="hoja2"></div>
+</div>
+
+<div class="flor" id="flor5">
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="centro"></div>
+    <div class="tallo"></div>
+    <div class="hoja"></div>
+    <div class="hoja2"></div>
+</div>
+
+<div class="flor" id="flor6">
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="petalo"></div>
+    <div class="centro"></div>
+    <div class="tallo"></div>
+    <div class="hoja"></div>
+    <div class="hoja2"></div>
+</div>
+
+
+<script>
+
+/* Abrir carta */
+function abrirTodo() {
+
+    const inicio = document.getElementById("inicio");
+    const carta = document.getElementById("carta");
+
+    inicio.classList.add("oculto");
+
+    setTimeout(() => {
+        carta.classList.add("visible");
+    }, 400);
+
+
+    /* Título */
+    setTimeout(() => {
+
+        document
+            .querySelector("#carta h2")
+            .classList.add("mostrar");
+
+    }, 1000);
+
+
+    /* Párrafos */
+    const parrafos =
+        document.querySelectorAll("#carta p");
+
+    parrafos.forEach((parrafo, index) => {
+
+        setTimeout(() => {
+
+            parrafo.classList.add("mostrar");
+
+        }, 1800 + index * 1500);
+
+    });
+
+
+    /* Firma */
+    setTimeout(() => {
+
+        document
+            .querySelector(".firma")
+            .classList.add("mostrar");
+
+    }, 1800 + parrafos.length * 1500);
+
+
+    /* Spotify */
+    setTimeout(() => {
+
+        document
+            .getElementById("spotifyPlayer")
+            .classList.add("mostrar");
+
+    }, 1800 + parrafos.length * 1500 + 1000);
+
+
+    /* Flores */
+    const flores = [
+        "flor1",
+        "flor2",
+        "flor3",
+        "flor4",
+        "flor5",
+        "flor6"
+    ];
+
+    flores.forEach((id, index) => {
+
+        setTimeout(() => {
+
+            document
+                .getElementById(id)
+                .classList.add("visible");
+
+        }, 700 + index * 350);
+
+    });
+
+}
+
+
+/* Corazones */
+function crearCorazon() {
+
+    const corazon =
+        document.createElement("div");
+
+    corazon.classList.add("corazon");
+
+    corazon.textContent = "♥";
+
+    corazon.style.left =
+        Math.random() * 100 + "vw";
+
+    corazon.style.fontSize =
+        (12 + Math.random() * 20) + "px";
+
+    corazon.style.animationDuration =
+        (6 + Math.random() * 5) + "s";
+
+    document.body.appendChild(corazon);
+
+    setTimeout(() => {
+
+        corazon.remove();
+
+    }, 12000);
+}
+
+setInterval(crearCorazon, 900);
+
+</script>
+
+</body>
+</html>
